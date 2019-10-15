@@ -36,6 +36,15 @@ int sensorDark = 0;
 int sensorLit = 0;
 int sensorValue = 0;
 
+
+void analogueSetup(){
+  // increase speed of ADC conversions to 28us each
+  // by changing the clock prescaler from 128 to 16
+  bitClear(ADCSRA, ADPS0);
+  bitClear(ADCSRA, ADPS1);
+  bitSet(ADCSRA, ADPS2);
+}
+
 int readSensor(int channel){
   sensorDark = analogRead(channel);
   digitalWrite(EMITTER,1);
@@ -51,6 +60,7 @@ void setup() {
   Serial.println(F("Sensor Basics\n"));
   pinMode(EMITTER,OUTPUT);
   digitalWrite(EMITTER,0); // be sure the emitter is off
+  analogueSetup();         // increase the ADC conversion speed
   updateTime = millis() + updateInterval;
 }
 
@@ -58,7 +68,7 @@ void setup() {
 void loop() {
   if (millis() > updateTime) {
     updateTime += updateInterval;
-    readSensor(A0);
+    int sensor = readSensor(A0);
     Serial.print(sensorDark);
     Serial.print(F(" > "));
     Serial.print(sensorLit);
