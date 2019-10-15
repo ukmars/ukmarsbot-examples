@@ -1,3 +1,13 @@
+# Reading the Encoders
+
+UKMARSBOT can use encoders attached to the drive motors. These encoders generate pulses when the motor shaft rotates. Normally, magnetic encoders are used and these generate 12 counts per rotation of the shft. This example shows how to decode the signals from the motor encoders and use them to update some variables in the program.
+
+Note that your partcular robot may have the encoders wired in reverse compared to other examples. Load the sletch and run it. You will see pairs of numbers displayed in the serial monitor. These numbers will change as you turn the wheels. Turning the wheel forward should make the corresponding counter increase. Turning it backward should make the counter decrease. You can modify the relevant code section is the numbers change in the wrong direction.
+
+Check that the counters change by the correct amount for your motor and gearbox. there sould be 12 counts per complete rotation of the motor shaft. So, if the motor has a 20:1 gearbox, you should see a change of 12 x 20 = 240 counts for each complete rotation of a wheel.
+
+## Code Details
+
 The ATMega328p  used in the Arduino nano has INT0 and INT1 connected to two of the digital pins:
 
 >    PD2 for INT0  - Arduino Digital Pin 2<br />
