@@ -163,7 +163,7 @@ void runRobot() {
   int function = getFunctionSwitch();
   motorAction(function);
   // run the motors for a fixed amount of time (in milliseconds)
-  uint32_t endTime = millis() + 8000;
+  uint32_t endTime = millis() + 2000;
   while(endTime > millis()){
     if(getFunctionSwitch() == 16){
       break;      // stop running if the button is pressed

@@ -54,7 +54,7 @@ For convenience, a single function can be used to set both motor PWM values at o
 
 The example sketch sets up the two motors and then waits for the user button to be pressed before running the motors for a short amount of time. The function select switches are used to determine exactly what happens next.
 
-_*THINK*_ before pressing the button. Will the robot go flying off the table? Will it run into something that will be damaged? Will it run into something that will damage the robot? Can you catch it in time? Will the dog be upset? Will she give it back after catching it?
+**THINK** before pressing the button. Will the robot go flying off the table? Will it run into something that will be damaged? Will it run into something that will damage the robot? Can you catch it in time? Will the dog be upset? Will she give it back after catching it?
 
 Bear in mind that the stock robot, at full speed, might travel 2 meters in one second.
 
@@ -75,7 +75,7 @@ Bear in mind that the stock robot, at full speed, might travel 2 meters in one s
 |  1100  |   12   | Pivot right 25%                     |
 |  1101  |   13   | Curve - Left 25%, Right 50%         |
 |  1110  |   14   | Curve - Left 50%, Right 25%         |
-|  1111  |   15   | Left Reverse 25%, Right Forward 50% |
+|  1111  |   15   | Curve - Left 75%, Right 50%         |
 
 
 Experiment with various settings for the motors until you understand how the motor speed settings affect the behaviour of the robot.
