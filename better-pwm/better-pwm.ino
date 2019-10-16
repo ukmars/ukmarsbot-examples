@@ -31,6 +31,15 @@ const int BATTERY_VOLTS = A7;
 
 uint32_t updateTime;
 uint32_t updateInterval = 100;  // in milliseconds
+const float MAX_MOTOR_VOLTS = 6.0f;
+const float batteryDividerRatio = 2.0f;
+
+float gBatteryVolts;
+float getBatteryVolts() {
+  int adcValue = analogRead(BATTERY_VOLTS);
+  gBatteryVolts = adcValue * (5.0f * batteryDividerRatio / 1023.0f);
+  return gBatteryVolts;
+}
 
 int decodeFunctionSwitch(int functionValue) {
   /**
@@ -96,6 +105,23 @@ void setMotorPWM(int left, int right) {
   setRightMotorPWM(right);
 }
 
+void setLeftMotorVolts(float volts) {
+  volts = constrain(volts, -MAX_MOTOR_VOLTS, MAX_MOTOR_VOLTS);
+  int motorPWM = (int)((255.0f * volts) / gBatteryVolts);
+  setLeftMotorPWM(motorPWM);
+}
+
+void setRightMotorVolts(float volts) {
+  volts = constrain(volts, -MAX_MOTOR_VOLTS, MAX_MOTOR_VOLTS);
+  int motorPWM = (int)((255.0f * volts) / gBatteryVolts);
+  setRightMotorPWM(motorPWM);
+}
+
+void setMotorVolts(float left, float right) {
+  setLeftMotorVolts(left);
+  setRightMotorVolts(right);
+}
+
 void setup() {
   Serial.begin(115200);
   Serial.println(F("Hello\n"));
@@ -106,55 +132,55 @@ void setup() {
 void motorAction(int function) {
   switch (function) {
     case 0:
-      setMotorPWM(0, 0);  // motors off
+      setMotorVolts(0, 0);  // motors off
       break;
     case 1:
-      setMotorPWM(63, 63);  // forward 25%
+      setMotorVolts(1.5, 1.5);  // forward 25%
       break;
     case 2:
-      setMotorPWM(127, 127);  // forward 50%
+      setMotorVolts(3.0, 3.0);  // forward 50%
       break;
     case 3:
-      setMotorPWM(195, 195);  // forward 75%
+      setMotorVolts(4.5, 4.5);  // forward 75%
       break;
     case 4:
-      setMotorPWM(-63, -63);  // reverse 25%
+      setMotorVolts(-1.5, -1.5);  // reverse 25%
       break;
     case 5:
-      setMotorPWM(-127, -127);  // reverse 50%
+      setMotorVolts(-3.0, -3.0);  // reverse 50%
       break;
     case 6:
-      setMotorPWM(-195, -195);  // reverse 75%
+      setMotorVolts(-4.5, -4.5);  // reverse 75%
       break;
     case 7:
-      setMotorPWM(-63, 63);  // spin left 25%
+      setMotorVolts(-1.5, 1.5);  // spin left 25%
       break;
     case 8:
-      setMotorPWM(-127, 127);  // spin left 50%
+      setMotorVolts(-3.0, 3.0);  // spin left 50%
       break;
     case 9:
-      setMotorPWM(63, -63);  // spin right 25%
+      setMotorVolts(1.5, -1.5);  // spin right 25%
       break;
     case 10:
-      setMotorPWM(127, 127);  // spin right 50%
+      setMotorVolts(3.0, 3.0);  // spin right 50%
       break;
     case 11:
-      setMotorPWM(0, 63);  // pivot left 25%
+      setMotorVolts(0, 1.5);  // pivot left 25%
       break;
     case 12:
-      setMotorPWM(63, 0);  // pivot right 25%
+      setMotorVolts(1.5, 0);  // pivot right 25%
       break;
     case 13:
-      setMotorPWM(63, 127);  // curve left
+      setMotorVolts(1.5, 3.0);  // curve left
       break;
     case 14:
-      setMotorPWM(127, 63);  // curve right
+      setMotorVolts(3.0, 1.5);  // curve right
       break;
     case 15:
-      setMotorPWM(195, 127);  // big curve right
+      setMotorVolts(4.5, 3.0);  // big curve right
       break;
     default:
-      setMotorPWM(0, 0);
+      setMotorVolts(0, 0);
       break;
   }
 }
@@ -164,6 +190,7 @@ void runRobot() {
   // run the motors for a fixed amount of time (in milliseconds)
   uint32_t endTime = millis() + 2000;
   while (endTime > millis()) {
+    getBatteryVolts();  // update the battery reading
     motorAction(function);
     if (getFunctionSwitch() == 16) {
       break;  // stop running if the button is pressed
