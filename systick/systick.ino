@@ -75,7 +75,7 @@ void setupSystick() {
   bitClear(TCCR2A, WGM20);
   bitSet(TCCR2A, WGM21);
   bitClear(TCCR2B, WGM22);
-  // set divisor to 128 => 125kHz
+  // set divisor to 128 => timer clock = 125kHz
   bitSet(TCCR2B, CS22);
   bitClear(TCCR2B, CS21);
   bitSet(TCCR2B, CS20);
