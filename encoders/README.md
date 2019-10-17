@@ -46,3 +46,15 @@ A single register in the processor holds bits that enable and disable the variou
 
 ```EIMSK:INT0``` (bit 0) enables the INT0 external interrupt<br>
 ```EIMSK:INT1``` (bit 1) enables the INT1 external interrupt
+
+### DigitalFastWrite
+
+You will see that there is an extra file in this sketch (and the others) - ```digitalFastWrite.h```.
+
+The file is needed to make sure that the encoder interrupts are servicest as fast as possible. The built in ```digitalRead()``` function is not very efficient and the interrupts may arrive at several tens of thousands per second. The code as shown in this example can process each interrupt in under 2.5 microseconds only because it uses ```digitalFastRead()``` instead of the built-in call.
+
+To use this feature you only have to make sure that the ```digitalFastWrite.h``` file is present in the same folder as the sketch and then add the following line at the top of the main sketch ```.ino``` file:
+
+    #include "digitalWriteFast.h"
+
+The Arduino IDE will take care of the rest.
