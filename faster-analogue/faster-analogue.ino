@@ -68,7 +68,7 @@ void setup() {
 void loop() {
   if (millis() > updateTime) {
     updateTime += updateInterval;
-    int sensor = readSensor(A0);
+    readSensor(A0);
     Serial.print(sensorDark);
     Serial.print(F(" > "));
     Serial.print(sensorLit);
