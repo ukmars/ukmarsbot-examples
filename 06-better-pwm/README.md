@@ -2,9 +2,9 @@
 
 The basic PWM setting for motors works just fine but there is a way to improve it significantly.
 
-Electric motors like those used in UKMARSBOT run at a speed that is determined by the Voltage applied to the motor terminals. In fact, an ideal motor will have a linear relationship between the applied voltage and the motor speed. Thus, applying 2 Volts will make the motor run twice as fast as applying 1 Volt. In practice, real motors and drive systems have differences due to things like the load on the motor, frition losses and the available drive current. Even so, it is much better to drive the motor by applying a specific, known voltage. In that way, the behaviour is more predictable.
+Electric motors like those used in UKMARSBOT run at a speed that is determined by the Voltage applied to the motor terminals. In fact, an ideal motor will have a linear relationship between the applied voltage and the motor speed. Thus, applying 2 Volts will make the motor run twice as fast as applying 1 Volt. In practice, real motors and drive systems have differences due to things like the load on the motor, friction losses and the available drive current. Even so, it is much better to drive the motor by applying a specific, known voltage. In that way, the behaviour is more predictable.
 
-In a robot like UKMARSBOT, the motor is driven using a PWM signal that switches the battery voltage. The duty cycle of the PWM sets the proportion of the battery voltage that the motor gets. So, if the battery voltage is 8 Volts and the PWM is set to 50%, the motor behaves as it it is connected to a 4 Volt supply.
+In a robot like UKMARSBOT, the motor is driven using a PWM signal that switches the battery voltage. The duty cycle of the PWM sets the proportion of the battery voltage that the motor gets. So, if the battery voltage is 8 Volts and the PWM is set to 50%, the motor behaves as if it is connected to a 4 Volt supply.
 
 But what happens if the battery voltage changes? Different battery types have different voltages and, as the battery discharges, the voltage naturally drops. That means that just using a 50% PWM duty cycle will apply a different voltage to the motors when you change batteries - either for a different type or for a freshly charged battery.
 
@@ -68,11 +68,5 @@ Notice that the motor voltage is a floating point value. A similar function is u
     void setMotorVolts(float left, float right){
       setLeftMotorVolts(left);
       setRightMotorVolts(right);
-    }
-
-
-
-
-
-
+   }
 
