@@ -30,12 +30,11 @@ const int BATTERY_VOLTS = A7;
  */
 
 uint32_t updateTime;
-uint32_t updateInterval = 100;  // in milliseconds
-volatile int gFunctionSwitch;
+uint32_t updateInterval = 200;  // in milliseconds
 
-const int SENSOR_CHANNELS = 4;
+const int SENSOR_CHANNELS = 6;
 
-const float LINE_WIDTH = 1.0;  // ADJUST THIS so that CTE is roughly equal to the error in mm
+const float LINE_WIDTH = 19.0;  // ADJUST THIS so that CTE is roughly equal to the error in mm
 const float LINE_DETECT_THRESHOLD = 900.0;  // minimum value to register the line - ADJUST TO SUIT
 const float LEFT_MARKER_THRESHOLD = 180.0;  // minimum value to register the turn marker
 const float RIGHT_MARKER_THRESHOLD = 180.0; // minimum value to register the start marker
@@ -48,27 +47,6 @@ volatile float gSensorSum;
 volatile float gSensorDifference;
 volatile float gSensorCTE;
 
-void updateFunctionSwitch() {
-  /**
-   * typical ADC values for all function switch settings
-   * 44, 127, 210, 267,
-   * 340, 382, 423, 456,
-   * 516, 541, 566, 583,
-   * 609, 625, 640, 655,
-   *
-   * The thresholds are the mid points between these readings
-   */
-  const int thresholds[] = {85,  168, 238, 303, 361, 402, 439, 486,
-                            528, 553, 574, 596, 617, 632, 647, 677};
-  int adcValue = analogRead(FUNCTION_PIN);
-  for (int i = 0; i <= 15; i++) {
-    if (adcValue < thresholds[i]) {
-      gFunctionSwitch = i;
-      return;
-    }
-  }
-  gFunctionSwitch = 16;
-}
 
 void analogueSetup() {
   // increase speed of ADC conversions to 28us each
@@ -140,12 +118,10 @@ void updateLineSensor() {
 // the systick event is an ISR attached to Timer 2
 ISR(TIMER2_COMPA_vect) {
   updateLineSensor();
-  updateFunctionSwitch();
 }
 
 void setup() {
   Serial.begin(115200);
-  Serial.println(F("Sensor Basics\n"));
   pinMode(EMITTER, OUTPUT);
   pinMode(LED_RIGHT, OUTPUT);
   pinMode(LED_LEFT, OUTPUT);

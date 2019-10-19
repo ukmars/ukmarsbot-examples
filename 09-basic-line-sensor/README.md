@@ -28,7 +28,7 @@ You may wonder why it is important to try and get CTE in millimeters. The main r
 
 ## Example Code
 
-The example sketch in this folder reads the Basic Line Sensor 500 times per second using the systick approach explained in step 05. Fast conversions are also used, as described in step 08. The results are stored in some global variables and sent ten times per second to the Serial Monitor on the PC. All four sensor readings are sent as well as the difference, sum and CTE.
+The example sketch in this folder reads the Basic Line Sensor 500 times per second using the systick approach explained in step 05. Fast conversions are also used, as described in step 08. The results are stored in some global variables and sent five times per second to the Serial Monitor on the PC. In the full robot contest code, it is important that the sensor readings are made very frequently and at regular intervals. Here, they are sent to the serial monitor less often just to help overloading the serial port. All four sensor readings are sent as well as the difference, sum and CTE.
 
 There are two things that you should note carefully.
 
@@ -39,6 +39,8 @@ There are two things that you should note carefully.
 Use this sketch to adjust the position of the individual sensors and the values of the resistors in the emitter and detector circuits. You aim should be to get line detector sensor reading of no bigger than about 500 and marker sensor readings of at least 500. The robot I used for these examples has over-sensitive detectors.
 
 You will probably notice that, as you move the sensor to the left and right of the line, the CTE will increase in magnitude to some maximum value when the actual error is about +/-10mm and then start to get smaller again until the line is lost. This is normal. A more advanced sensor arrangement will give a greater range of error values. Experiment with the constant ```LINE_WIDTH``` until you get a maximum value for CTE of about +/- 10. Do not worry too much if the readings are not symmetrical but try adjusting the position of the LED and detectors to get them as similar as possible.
+
+You should find that the sensor is very sensitive to small errors and it may even be difficult to get it to read zero when it looks correctly positioned. Also, there will be some small variation in the error even when the robot is completely stationary. These things are normal.
 
 The sketch will light the LEDs on the sensor board when it sees a marker. Adjust the marker threshold values (```LEFT_MARKER_THRESHOLD``` and ```RIGHT_MARKER_THRESHOLD```) so that you can reliably detect a marker. A good starting point for the threshold values might be twice the reading shown when the sensor is over a black section of floor.
 
