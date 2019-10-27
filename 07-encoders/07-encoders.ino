@@ -59,9 +59,9 @@ ISR(INT0_vect) {
   bool newB = bool(digitalReadFast(ENCODER_LEFT_B));
   bool newA = bool(digitalReadFast(ENCODER_LEFT_CLK)) ^ newB;
   if (newA == oldB) {
-    encoderLeftCount++;
-  } else {
     encoderLeftCount--;
+  } else {
+    encoderLeftCount++;
   }
   oldB = newB;
 }
@@ -79,7 +79,7 @@ ISR(INT1_vect) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   setupEncoder();
   Serial.println(F("Hello\n"));
   updateTime = millis() + updateInterval;
