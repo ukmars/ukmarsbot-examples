@@ -37,7 +37,7 @@ Normally all three bits are set to 1.
 
 Clearly, the conversions are less accurate as the ADC clock increases. By the time the divisor is down to 8 (ADC clock = 2MHz), the ADC is working at no more than 8 bits of useful resolution. If that is enough for the application then it will be reasonably effective. Some accuracy can be recovered if the results are filtered with a moving average or exponential filter.
 
-## The Sketch
+## The Example Sketch
 
-This example just shows how to set up the ADC system for faster conversions. The rest of the code is identical to the sensor-basics example so you can compare results. You will possibly notice that the sensor reading varies a little more but the average is the same. For those who care - because the sensor value is a difference of two numbers that are themselves more variable, the overall variability of the result is more than that of individual cannels. Don't worry - it all works out just fine.
+This example just shows how to set up the ADC system for faster conversions. The rest of the code is identical to the sensor-basics example so you can compare results. You will possibly notice that the sensor reading varies a little more but the average is the same. For those who care - because the sensor value is a difference of two numbers that are themselves more variable, the overall variability of the result is more than that of individual channels. Don't worry - it all works out just fine.
 
