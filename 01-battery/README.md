@@ -10,8 +10,16 @@ The question of how to compensate for these changes is dealt with elsewhere. Her
 
 ## Details
 
-The battery positive terminal is connected to a voltage divider made up of two resistors. The output of that voltage divider is then fed into the Arduino analogue channel A7 where it can be read with the built in ```analogueRead()``` function.
+On UKMARSBOT, there is a diode between the battery positive terminal and the battery supply input, Vin, to the Arduino controller. That diode prevents damage in case the battery is connected in reverse. The diode causes a small loss in voltge from the battery but that will not be significant in normal use.
 
-This function returns a number between 0 and 1023 inclusive which corresponds to a voltage between 0 and 5 Volts on the pin. If more than 5 Volts is applied to the pin, the processor is likely to be damaged so the voltage divider on the battery divides the battery voltage by two. Thus, if the battery is at 8 Volts, there will be 4 Volts on the A7 pin and the ADC value will be about 818. Since the voltage divider ratio is known, it is easy enough to convert the ADC reading into a Voltage. This sketch uses a floating-point calculation to show the battery voltage directly in Volts.
+The Vin supply is then is connected to a voltage divider made up of two resistors. The output of that voltage divider is then fed into the Arduino analogue channel A7 where it can be read with the built in ```analogueRead()``` function.
+
+This function returns a number between 0 and 1023 inclusive from the Analogue to Digital Converter (ADC) which corresponds to a voltage between 0 and 5 Volts on the pin. If more than 5 Volts is applied to the pin, the processor is likely to be damaged so the voltage divider on the Vin supply divides the voltage by two. Thus, if Vin is at 8 Volts, there will be 4 Volts on the A7 pin and the ADC value will be about 818. Since the voltage divider ratio is known, it is easy enough to convert the ADC reading into a Voltage. This sketch uses a floating-point calculation to show the Vin voltage directly in Volts.
 
 It is always better, where possible, to use real, natural units for measurements and parameters.
+
+## Example Code
+
+When you run the program on your robot, you can use the serial monitor to see the output. The program repeatedly sends lines displaying the reading from the ADC and the calculated voltage on the Vin pin of the Arduino. It is normal for the reading to fluctuate a little as the analogueRead() function gives a result that is only acurate to within a couple of digits.
+
+With only USB power applied, you can expect to see about 4.4 Volts on Vin because it is supplied through the on-board regulator being driven backwards. With the battery connected and turned on, you would see a little bit less than the actual battery voltage because of the protection diode in the suppply circuit.

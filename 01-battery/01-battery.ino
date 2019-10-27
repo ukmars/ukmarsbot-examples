@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "digitalWriteFast.h"
 /**
  * Hardware pin defines
  */
@@ -40,7 +39,7 @@ float getBatteryVolts(int adcValue) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println(F("Sensor Basics\n"));
   updateTime = millis() + updateInterval;
 }
@@ -49,8 +48,9 @@ void loop() {
   if (millis() > updateTime) {
     updateTime += updateInterval;
     int adcValue = analogRead(BATTERY_VOLTS);
+    Serial.print(F("ADC counts = "));
     Serial.print(adcValue);
-    Serial.print(F(" => "));
+    Serial.print(F("   =>   Vin = "));
     Serial.print(getBatteryVolts(adcValue));
     Serial.print(F(" Volts "));
     Serial.println();
