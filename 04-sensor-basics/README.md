@@ -18,6 +18,8 @@ Although it is a very simple example, this sketch can be a valuable tool for tes
 
 Here only channel A0 is used. On the wall sensor board, this may be the right wall distance sensor. On the line follower, it will be the right marker sensor. A single emitter enable pin turns on all the emitter LEDS so, if you are experimenting with only a single channel, be careful that any LEDs on the other channels are not affecting the results.
 
+Later examples make use of the complete sensor board. This one is all about how the sensors are read and why it is done this way.
+
 Only the standard Arduino functions are used. Notice that there is a short delay between turning on the emitter LED and reading the phototransistor. It takes a small amount of time for the phototransistor to respond and it is important to wait for this to happen. Without the delay, you will find that the sensor results are not consistent and will definitely be different from channel to channel.
 
 The assumption in this sketch is that the sensor value after illumination is brighter than without illumination. This is true of the wall sensor but the basic line sensor is reversed. The more light it sees, the smaller is the answer. For that, you just need to reverse the sign of the difference.

@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "digitalWriteFast.h"
 /**
  * Hardware pin defines
  */
