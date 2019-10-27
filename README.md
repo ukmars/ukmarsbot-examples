@@ -10,3 +10,5 @@ To use these examples without bothering with git and the github magic, cick the 
 
 Unpack that file to a folder of your choosing. You should then be able to use the Arduino IDE to directly open each sketch and run it.
 
+Don't just copy the individual files or their contents out into the Arduino IDE. Examples may contain additional files that need to be present in the same folder as the sketch in order for them to work.
+
