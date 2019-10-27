@@ -46,7 +46,7 @@ int readSensor(int channel){
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println(F("Sensor Basics\n"));
   pinMode(EMITTER,OUTPUT);
   digitalWrite(EMITTER,0); // be sure the emitter is off
