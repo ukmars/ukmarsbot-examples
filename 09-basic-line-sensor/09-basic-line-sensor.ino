@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "digitalWriteFast.h"
 /**
  * Hardware pin defines
  */
@@ -84,12 +83,12 @@ void updateLineSensor() {
   for (int i = 0; i < SENSOR_CHANNELS; i++) {
     sensorDark[i] = analogRead(A0 + i);
   }
-  digitalWriteFast(EMITTER, 1);
+  digitalWrite(EMITTER, 1);
   delayMicroseconds(50);
   for (int i = 0; i < SENSOR_CHANNELS; i++) {
     sensorLit[i] = analogRead(A0 + i);
   }
-  digitalWriteFast(EMITTER, 0);
+  digitalWrite(EMITTER, 0);
   for (int i = 0; i < SENSOR_CHANNELS; i++) {
     sensorValue[i] = abs(sensorLit[i] - sensorDark[i]);
   }
@@ -98,14 +97,14 @@ void updateLineSensor() {
   gSensorLeft = sensorValue[2];
   gSensorTurn = sensorValue[3];
   if (gSensorStart > RIGHT_MARKER_THRESHOLD) {
-    digitalWriteFast(LED_RIGHT, 1);
+    digitalWrite(LED_RIGHT, 1);
   } else {
-    digitalWriteFast(LED_RIGHT, 0);
+    digitalWrite(LED_RIGHT, 0);
   }
   if (gSensorTurn > LEFT_MARKER_THRESHOLD) {
-    digitalWriteFast(LED_LEFT, 1);
+    digitalWrite(LED_LEFT, 1);
   } else {
-    digitalWriteFast(LED_LEFT, 0);
+    digitalWrite(LED_LEFT, 0);
   }
   gSensorSum = gSensorRight + gSensorLeft;
   gSensorDifference = gSensorRight - gSensorLeft;
@@ -121,7 +120,7 @@ ISR(TIMER2_COMPA_vect) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(EMITTER, OUTPUT);
   pinMode(LED_RIGHT, OUTPUT);
   pinMode(LED_LEFT, OUTPUT);
