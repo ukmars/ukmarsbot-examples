@@ -16,4 +16,15 @@ Because components all have a small tolerance and so are never exactly the value
 
 To overcome this problem, the resistor values have been chosen to give the largest possible difference between any two switch settings. The code in this example shows how you can read the analogue voltage from the function channel and then compare that reading with a list of preset values. In this way, you can convert the raw analogue reading into a simple stable number from 0 to 15 corresponding to the switch positions. If the pushbutton is pressed, the function always gives the value 16.
 
-Run the sketch and try different switch settings - the analogue reading and the function number will be displayed on the serial monitor. You should be able to see that the raw analogue reading is not constant but varies a little over time. Pressing the pushbutton should also light uo the built in LEDon the Arduino.
+NOTE that the switches should have been installed so that they ar ```ON``` when in the 'up' position as viewed from the rear of the robot. The switch positions then correspond to a binary number with 'up' representing a '1' and 'down' representing a '0'. For example if the switches are DOWN, UP, DOWN, UP, that would represent the binary number 0101 or 5 in decimal. All switches UP is 15 and all DOWN is zero.
+
+Run the sketch and try different switch settings - the analogue reading and the function number will be displayed on the serial monitor. You should be able to see that the raw analogue reading is not constant but varies a little over time. Pressing the pushbutton should also light up the built in LED on the Arduino.
+
+## Customisation
+
+Your particular robot may not have the same analog readings as mine even with nominally the same resistor values. You will then need to adjust the threshold values in the program to take that into account. These variations are most likely to show up with the function settings of 0, 1, 2 and 3.
+
+It is easy enough to customise the code for your robot.
+
+Run the program and set the switches to each value in turn, making a note of the analogue readingfor each setting. Then record the values corresponding to 0001, 0010, 0011 etc into the declaration of ```const int adcReading[]```. When you rebuild and run the code again, you should have reliable detection of each of the switch settings
+

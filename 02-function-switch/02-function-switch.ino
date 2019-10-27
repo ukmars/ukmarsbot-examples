@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "digitalWriteFast.h"
+
 /**
  * Hardware pin defines
  */
@@ -34,26 +34,26 @@ uint32_t updateInterval = 100;  // in milliseconds
 
 int decodeFunctionSwitch(int functionValue) {
   /**
-   * typical ADC values for all function switch settings
-   * 44, 127, 210, 267,
-   * 340, 382, 423, 456,
-   * 516, 541, 566, 583,
-   * 609, 625, 640, 655,
-   *
-   * The thresholds are the mid points between these readings
+   * Typical ADC values for all function switch settings
    */
-  const int thresholds[] = {85,  168, 238, 303, 361, 402, 439, 486,
-                            528, 553, 574, 596, 617, 632, 647, 677};
-  for (int i = 0; i <= 15; i++) {
-    if (functionValue < thresholds[i]) {
-      return i;
+  const int adcReading[] = {660, 647, 630, 614, 590, 570, 545, 522, 461,
+                            429, 385, 343, 271, 212, 128, 44,  0};
+
+  if(functionValue > 1000){
+    return 16;  // pushbutton closed
+  }
+  int result = 16;
+  for (int i = 0; i < 16; i++) {
+    if (functionValue > (adcReading[i] + adcReading[i + 1]) / 2) {
+      result = i;
+      break;
     }
   }
-  return 16;
+  return result;
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println(F("Hello\n"));
   updateTime = millis() + updateInterval;
 }
@@ -71,6 +71,7 @@ void loop() {
     }
     Serial.print(functionValue);
     Serial.print(F(" => "));
-    Serial.println(function);
+    Serial.print(function);
+    Serial.println();
   }
 }
