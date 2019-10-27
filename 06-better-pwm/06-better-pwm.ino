@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include "digitalWriteFast.h"
 /**
  * Hardware pin defines
  */
@@ -43,22 +42,22 @@ float getBatteryVolts() {
 
 int decodeFunctionSwitch(int functionValue) {
   /**
-   * typical ADC values for all function switch settings
-   * 44, 127, 210, 267,
-   * 340, 382, 423, 456,
-   * 516, 541, 566, 583,
-   * 609, 625, 640, 655,
-   *
-   * The thresholds are the mid points between these readings
+   * Typical ADC values for all function switch settings
    */
-  const int thresholds[] = {85,  168, 238, 303, 361, 402, 439, 486,
-                            528, 553, 574, 596, 617, 632, 647, 677};
-  for (int i = 0; i <= 15; i++) {
-    if (functionValue < thresholds[i]) {
-      return i;
+  const int adcReading[] = {660, 647, 630, 614, 590, 570, 545, 522, 461,
+                            429, 385, 343, 271, 212, 128, 44,  0};
+
+  if (functionValue > 1000) {
+    return 16;  // pushbutton closed
+  }
+  int result = 16;
+  for (int i = 0; i < 16; i++) {
+    if (functionValue > (adcReading[i] + adcReading[i + 1]) / 2) {
+      result = i;
+      break;
     }
   }
-  return 16;
+  return result;
 }
 
 int getFunctionSwitch() {
@@ -123,7 +122,7 @@ void setMotorVolts(float left, float right) {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println(F("Hello\n"));
   motorSetup();
   updateTime = millis() + updateInterval;
@@ -132,52 +131,68 @@ void setup() {
 void motorAction(int function) {
   switch (function) {
     case 0:
-      setMotorVolts(0, 0);  // motors off
+      setMotorVolts(0, 0);
+      Serial.println("motors off");
       break;
     case 1:
-      setMotorVolts(1.5, 1.5);  // forward 25%
+      setMotorVolts(1.5, 1.5);
+      Serial.println("forward 25%");
       break;
     case 2:
-      setMotorVolts(3.0, 3.0);  // forward 50%
+      setMotorVolts(3.0, 3.0);
+      Serial.println("forward 50%");
       break;
     case 3:
-      setMotorVolts(4.5, 4.5);  // forward 75%
+      setMotorVolts(4.5, 4.5);
+      Serial.println("forward 75%");
       break;
     case 4:
-      setMotorVolts(-1.5, -1.5);  // reverse 25%
+      setMotorVolts(-1.5, -1.5);
+      Serial.println("reverse 25%");
       break;
     case 5:
-      setMotorVolts(-3.0, -3.0);  // reverse 50%
+      setMotorVolts(-3.0, -3.0);
+      Serial.println("reverse 50%");
       break;
     case 6:
-      setMotorVolts(-4.5, -4.5);  // reverse 75%
+      setMotorVolts(-4.5, -4.5);
+      Serial.println("reverse 75%");
       break;
     case 7:
-      setMotorVolts(-1.5, 1.5);  // spin left 25%
+      setMotorVolts(-1.5, 1.5);
+      Serial.println("spin left 25%");
       break;
     case 8:
-      setMotorVolts(-3.0, 3.0);  // spin left 50%
+      setMotorVolts(-3.0, 3.0);
+      Serial.println("spin left 50%");
       break;
     case 9:
-      setMotorVolts(1.5, -1.5);  // spin right 25%
+      setMotorVolts(1.5, -1.5);
+      Serial.println("spin right 25%");
       break;
     case 10:
-      setMotorVolts(3.0, 3.0);  // spin right 50%
+      setMotorVolts(3.0, 3.0);
+      Serial.println("spin right 50%");
       break;
     case 11:
-      setMotorVolts(0, 1.5);  // pivot left 25%
+      setMotorVolts(0, 1.5);
+      Serial.println("pivot left 25%");
       break;
     case 12:
-      setMotorVolts(1.5, 0);  // pivot right 25%
+      setMotorVolts(1.5, 0);
+      Serial.println("pivot right 25%");
       break;
     case 13:
-      setMotorVolts(1.5, 3.0);  // curve left
+      setMotorVolts(1.5, 3.0);
+      Serial.println("curve left");
       break;
     case 14:
-      setMotorVolts(3.0, 1.5);  // curve right
+      setMotorVolts(3.0, 1.5);
+      Serial.println("curve right");
       break;
     case 15:
-      setMotorVolts(4.5, 3.0);  // big curve right
+      setMotorVolts(4.5, 3.0);
+      Serial.println("big curve right");
       break;
     default:
       setMotorVolts(0, 0);
@@ -189,9 +204,9 @@ void runRobot() {
   int function = getFunctionSwitch();
   // run the motors for a fixed amount of time (in milliseconds)
   uint32_t endTime = millis() + 2000;
+  getBatteryVolts();  // update the battery reading
+  motorAction(function);
   while (endTime > millis()) {
-    getBatteryVolts();  // update the battery reading
-    motorAction(function);
     if (getFunctionSwitch() == 16) {
       break;  // stop running if the button is pressed
     }
