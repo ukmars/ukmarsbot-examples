@@ -64,13 +64,13 @@ The code in this example is based on that in the 07-encoders example. The differ
 
 Run the program. After a restart, the program will display the current calibration values on the serial monitor. Press the user button and you will see a constant stream of numbers showing the encoder sum and difference along with their equivalents in millimetres and degrees. Try pushing the robot around on the desk or floor. The results should be very close to what you might expect. It is a lot harder than you think to push a robot an exact distance or to turn it by an exact angle. Try holding one wheel still while you rotate the robot a full 360 degrees around that stationary point. Think about th evalues that you see. You can reset the counters to zero at any time by pressing the pushbutton at the back of the robot.
 
-To change the calibration, start by pushing the robot a fixed distance straight ahead. The further you move it, the more accurate the result will be. Repeat several times to get an average. Compare the displayed distance with the amount you moved the robot. If they are different, make changes to the constant ```WHEEL_DIAMETER``` an re-run the program until they are close. It is unlikely you will get it exactly right so, when the readings are good enough, accept that as good enough and move on.  Good enough here is probably to be within 1mm in 200mm of travel (+/-0.5%)
+To change the calibration, start by pushing the robot a fixed distance straight ahead. The further you move it, the more accurate the result will be. Repeat several times to get an average. Compare the displayed distance with the amount you moved the robot. If they are different, make changes to the constant ```WHEEL_DIAMETER``` an re-run the program until they are close. It is unlikely you will get it exactly right so, when the readings are good enough, accept that as good enough and move on.  Good enough here is probably to be within 1mm in 200mm of travel (+/-1%)
 
 Clearly, a very large error might be because you do not have the gear ratio correct for your motors.
 
 Once the forward calibration is done, you can adjust the angle calibration. Zero the counters and rotate the robot by 360 degrees, as accurately as you can - it does not have to be exactly around the centre of the robot. Again, do several tests and get an average. Compare the displayed angle with what you expect and, if they are not close enough, adjust the constant ```WHEEL_SEPARATION``` in the program and re-run until you get a good enough result. Good enough here is probably within 2 degrees of the true answer over a full turn (+/-0.5%).
 
-It is not worth the effort of getting better than 0.5% accuracy and +/-1% will be good enough for most purposes.
+It is not worth the effort of getting better than 0.5% accuracy. Indeed, it may not be possible on your robot if you have low gear ratios. Generally, +/-1% will be good enough for most purposes.
 
 If you have managed to connect a Bluetooth Serial link to the robot it will save having the cable get in the way all the time.
 
