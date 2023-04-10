@@ -145,7 +145,7 @@ void motorAction(int function) {
       Serial.println("spin right 25%");
       break;
     case 10:
-      setMotorPWM(127, 127);
+      setMotorPWM(127, -127);
       Serial.println("spin right 50%");
       break;
     case 11:
