@@ -65,7 +65,7 @@ A single register in the processor holds bits that enable and disable the variou
 ```EIMSK:INT0``` (bit 0) enables the INT0 external interrupt<br>
 ```EIMSK:INT1``` (bit 1) enables the INT1 external interrupt
 
-### DigitalFastWrite
+### digitalWriteFast
 
 You will see that there is an extra file in this sketch (and the others) - ```digitalWriteFast.h```.
 
