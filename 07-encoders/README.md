@@ -67,11 +67,11 @@ A single register in the processor holds bits that enable and disable the variou
 
 ### DigitalFastWrite
 
-You will see that there is an extra file in this sketch (and the others) - ```digitalFastWrite.h```.
+You will see that there is an extra file in this sketch (and the others) - ```digitalWriteFast.h```.
 
-The file is needed to make sure that the encoder interrupts are serviced as fast as possible. The built in ```digitalRead()``` function is not very efficient and the interrupts may arrive at several tens of thousands per second. The code as shown in this example can process each interrupt in under 2.5 microseconds only because it uses ```digitalFastRead()``` instead of the built-in call.
+The file is needed to make sure that the encoder interrupts are serviced as fast as possible. The built in ```digitalRead()``` function is not very efficient and the interrupts may arrive at several tens of thousands per second. The code as shown in this example can process each interrupt in under 2.5 microseconds only because it uses ```digitalReadFast()``` instead of the built-in call.
 
-To use this feature you only have to make sure that the ```digitalFastWrite.h``` file is present in the same folder as the sketch file and then add the following line at the top of the main sketch ```.ino``` file:
+To use this feature you only have to make sure that the ```digitalWriteFast.h``` file is present in the same folder as the sketch file and then add the following line at the top of the main sketch ```.ino``` file:
 
     #include "digitalWriteFast.h"
 
