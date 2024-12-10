@@ -83,7 +83,9 @@ void setupSystick() {
 }
 
 // the systick event is an ISR attached to Timer 2
-ISR(TIMER2_COMPA_vect) {
+// ISR_NOBLOCK flag is required so that other interrupt routines 
+// such as the encoder ISR run correctly
+ISR(TIMER2_COMPA_vect, ISR_NOBLOCK) {
   updateBatteryVolts();
   updateFunctionSwitch();
 }
